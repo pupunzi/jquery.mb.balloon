@@ -142,7 +142,7 @@
 			if (typeof self.opt.balloon == "object") {
 
 				// is a DOM element
-				var content = self.opt.balloon.clone();
+				var content = self.opt.balloon.clone(true);
 				self.$balloonContainer.append(content.show());
 				$self.data("balloon", content);
 				self.$balloonContainer.css({padding: 0});
