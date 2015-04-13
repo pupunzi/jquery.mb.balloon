@@ -490,10 +490,34 @@
 
 			}
 
+			if (balloonLeft < (jQuery("body").offset().left + jQuery(window).scrollLeft())) {
+
+				balloonTop = targetTop + (targetHeight / 2) - self.$balloonContainer.outerHeight() / 2;
+				balloonLeft = (targetLeft + targetWidth) + arrow.outerWidth();
+				arrowTop = (self.$balloonContainer.outerHeight() / 2 - arrow.outerHeight() / 2);
+				arrowLeft = -arrow.outerWidth() / 2;
+				self.$balloonContainer.removeClass("n s e w");
+				arrow.removeClass("n s e w");
+				arrow.addClass("w");
+				self.$balloonContainer.addClass("w");
+				self.balloonPos = "right"
+			}
+
+			if (balloonLeft + self.$balloonContainer.outerWidth() - 50 > jQuery(window).width() + jQuery(window).scrollLeft()) {
+
+				balloonTop = targetTop + (targetHeight / 2) - (self.$balloonContainer.outerHeight() / 2);
+				balloonLeft = targetLeft - self.$balloonContainer.outerWidth() - arrow.outerWidth();
+				arrowTop = (self.$balloonContainer.outerHeight() / 2 - arrow.outerHeight() / 2);
+				arrowLeft = self.$balloonContainer.outerWidth() - 1;
+				self.$balloonContainer.removeClass("n s e w");
+				arrow.removeClass("n s e w");
+				arrow.addClass("e");
+				self.$balloonContainer.addClass("e");
+				self.balloonPos = "left"
+			}
+
 			if (balloonLeft < 0) {
-
 				balloonLeft = 0;
-
 			}
 
 			self.$balloonContainer.css({top: balloonTop, left: balloonLeft});
@@ -524,4 +548,3 @@
 	jQuery.fn.getOpener = jQuery.balloon.getOpener;
 
 })(jQuery);
-
