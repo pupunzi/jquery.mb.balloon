@@ -65,6 +65,7 @@
             cursor: default;
             background: rgba(250, 250, 250,.6);
             max-width: 300px;
+            font-size: 18px;
             color: #333;
             border-radius: 5px;
         }
@@ -96,8 +97,38 @@
             setTimeout(function(){
                 var balloon = $("#balloon1").showBalloon();
             },500);
+            $(".opener").each(function(){
+                var el = $(this);
+                el.showCode(el);
+            });
+
 
         });
+
+        function printOutHTML(el){
+            var html = el[0].outerHTML;
+            html=html.replace(/</g,"&lt;");
+            html=html.replace(/>/g,"&gt;");
+            return html;
+        }
+
+        $.fn.showCode = function(el){
+            return this.each(
+                    function(){
+                        var msg = "";
+                        var data = el.data();
+                        var c = 1;
+                        for(var x in data){
+                            msg += "<b>data-" + x + "</b> = " + data[x];
+                            msg += ", ";
+                            c++;
+                        }
+//                        var msg = el.data().toString(); //printOutHTML(el)
+                        var element = $("<div/>").append(msg).css({fontSize: "10px", marginTop:10});
+                        $(this).append(element);
+                    }
+            )
+        }
 
     </script>
 
@@ -109,9 +140,16 @@
     <br>
     <br>
     <br>
-    <span id="balloon1" class="opener" data-addoverlay="true" data-balloon = "Here is the balloon 1" data-timer="3000" data-justonce="false" style="position: absolute; left:10px">on document load <br>(with overlay - show for 3 sec.)</span>
-    <span id="balloon2" class="opener" data-addclose="true" data-balloon = "Here is the balloon 2"  data-bgcolor="#f0f0f0" data-bordercolor="#999" data-textcolor="#333" style="position: absolute; right:10px">click me <br>(with overlay - custom color - close button)</span>
-    <div id="balloon3" class="opener"  onclick="$(this).showBalloon(event,{balloon:$('#forBalloon3')})" data-addoverlay="false" style="position:relative; margin: auto ; clear: both">click me <br>(without overlay)</div>
+    <div id="balloon1" class="opener" data-addoverlay="true" data-balloon = "Here is the balloon 1" data-timer="3000" data-justonce="false" style="position: absolute; left:10px">
+        on document load <br>(with overlay - show for 3 sec.)
+    </div>
+
+    <div id="balloon2" class="opener" data-addclose="true" data-balloon = "Here is the balloon 2"  data-bgcolor="#f0f0f0" data-bordercolor="#999" data-textcolor="#333" style="position: absolute; right:10px">
+        click me <br>(with overlay - custom color - close button)
+    </div>
+    <div id="balloon3" class="opener"  onclick="$(this).showBalloon(event,{balloon:$('#forBalloon3')})" data-addoverlay="false" style="position:relative; margin: auto ; clear: both">
+        click me <br>(without overlay)
+    </div>
     <br>
     <br>
     <br>
@@ -119,7 +157,9 @@
     <br>
     <br>
     <br>
-    <div id="balloon6" class="opener" data-forceposition="up" data-addoverlay="true" data-balloon = "Here is the balloon 6"  onmouseover="$(this).showBalloon(event,{balloon:$('#forBalloon3')})" onmouseout="$(this).hideBalloon()" style="position:relative; margin: auto ; clear: both">rollover me <br>(on mouseover, without overlay)</div>
+    <div id="balloon6" class="opener" data-forceposition="up" data-addoverlay="true" data-balloon = "Here is the balloon 6"  onmouseover="$(this).showBalloon(event,{balloon:$('#forBalloon3')})" onmouseout="$(this).hideBalloon()" style="position:relative; margin: auto ; clear: both">
+        rollover me <br>(on mouseover)
+    </div>
     <br>
     <br>
     <br>
@@ -127,7 +167,9 @@
     <br>
     <br>
     <br>
-    <div id="balloon4" class="opener" data-balloon = "{ajax} balloon-ajax-content.html"  style="position:relative; margin: auto; clear: both">click me <br>(the content is from an ajax call)</div>
+    <div id="balloon4" class="opener" data-balloon = "{ajax} balloon-ajax-content.html"  style="position:relative; margin: auto; clear: both">
+        click me <br>(the content is from an ajax call)
+    </div>
     <br>
     <br>
     <br>
@@ -171,7 +213,9 @@
         <br>
         <br>
        </span>
-        <div id="balloon5" class="opener" data-addclose = "true" data-balloon = "Nullam id dolor id nibh ultricies vehicula ut id elit. Maecenas sed diam eget risus varius blandit sit amet non magna."  style="position:relative; margin: auto; clear: both;">click me <br>(with overlay and close btn)</div>
+        <div id="balloon5" class="opener" data-addclose = "true" data-balloon = "Nullam id dolor id nibh ultricies vehicula ut id elit. Maecenas sed diam eget risus varius blandit sit amet non magna."  style="position:relative; margin: auto; clear: both;">
+            click me <br>(with overlay and close btn)
+        </div>
         <br>
         <br>
         <br>

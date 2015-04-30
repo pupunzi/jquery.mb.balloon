@@ -98,8 +98,11 @@
 
 			if (!self.isInit) {
 				self.opt = {};
+				console.debug(opt);
 				if (typeof opt == "object") {
-					jQuery.extend(self.opt, jQuery.balloon.defaults, opt, $self.data());
+
+
+					jQuery.extend(self.opt, jQuery.balloon.defaults, $self.data(), opt);
 				} else if (typeof opt == "string") {
 					self.opt.balloon = opt;
 				} else {
