@@ -28,7 +28,7 @@
     <title>jquery.mb.balloon</title>
 
     <link href="css/mb.balloon.css" media="all" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="inc/jquery.mb.balloon.js"></script>
 
     <style type="text/css">
@@ -82,6 +82,10 @@
         .contentForBalloon{
             display: none;
             padding: 20px;
+        }
+
+        h3 {
+            margin-top: 0;
         }
 
     </style>
@@ -141,14 +145,17 @@
     <br>
     <br>
     <div id="balloon1" class="opener" data-addoverlay="true" data-balloon = "Here is the balloon 1" data-timer="3000" data-justonce="false" style="position: absolute; left:10px">
-        on document load <br>(with overlay - show for 3 sec.)
+        <h3>on document load</h3>
+        (with overlay - shows for 3 sec.)
     </div>
 
     <div id="balloon2" class="opener" data-addclose="true" data-balloon = "Here is the balloon 2"  data-bgcolor="#f0f0f0" data-bordercolor="#999" data-textcolor="#333" style="position: absolute; right:10px">
-        click me <br>(with overlay - custom color - close button)
+        <h3>click me</h3>
+        (with overlay - custom color - close button)
     </div>
     <div id="balloon3" class="opener"  onclick="$(this).showBalloon(event,{balloon:$('#forBalloon3')})" data-addoverlay="false" style="position:relative; margin: auto ; clear: both">
-        click me <br>(without overlay)
+        <h3>click me</h3>
+        (without overlay)
     </div>
     <br>
     <br>
@@ -157,8 +164,9 @@
     <br>
     <br>
     <br>
-    <div id="balloon6" class="opener" data-forceposition="up" data-addoverlay="true" data-balloon = "Here is the balloon 6"  onmouseover="$(this).showBalloon(event,{balloon:$('#forBalloon3')})" onmouseout="$(this).hideBalloon()" style="position:relative; margin: auto ; clear: both">
-        rollover me <br>(on mouseover)
+    <div id="balloon6" class="opener" data-forceposition="up" data-addoverlay="true" data-balloon = "Here is the balloon 6" data-timer="3000"   onmouseover="$(this).showBalloon(event,{balloon:$('#forBalloon3')})" onmouseout="$(this).hideBalloon()" style="position:relative; margin: auto ; clear: both">
+        <h3>rollover me</h3>
+        (on mouseover - shows for 3 sec.)
     </div>
     <br>
     <br>
@@ -167,8 +175,9 @@
     <br>
     <br>
     <br>
-    <div id="balloon4" class="opener" data-balloon = "{ajax} balloon-ajax-content.html"  style="position:relative; margin: auto; clear: both">
-        click me <br>(the content is from an ajax call)
+    <div id="balloon4" class="opener" data-bgcolor="#f0f0f0" data-bordercolor="#555" data-textcolor="#333" data-balloon = "{ajax} balloon-ajax-content.html"  style="position:relative; margin: auto; clear: both">
+        <h3>click me</h3>
+        (the content is from an ajax call)
     </div>
     <br>
     <br>
@@ -214,7 +223,8 @@
         <br>
        </span>
         <div id="balloon5" class="opener" data-addclose = "true" data-balloon = "Nullam id dolor id nibh ultricies vehicula ut id elit. Maecenas sed diam eget risus varius blandit sit amet non magna."  style="position:relative; margin: auto; clear: both;">
-            click me <br>(with overlay and close btn)
+            <h3>click me</h3>
+            (with overlay and close btn)
         </div>
         <br>
         <br>
@@ -222,6 +232,10 @@
         <br>
         <br>
     </div>
+    <div  style="position:relative; margin: auto; clear: both; color:#000000 ">
+        <a href="javascript:void(0)" id="balloon7" class="" data-bgcolor="#f0f0f0" data-addoverlay="true" data-bordercolor="#555" data-textcolor="#333" data-balloon = "{ajax} balloon-ajax-content.html">click me</a> (the content is from an ajax call)
+    </div>
+
 </div>
 
 <div id="forBalloon3" class="contentForBalloon">
