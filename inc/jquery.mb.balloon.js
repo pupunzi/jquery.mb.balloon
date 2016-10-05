@@ -147,12 +147,16 @@
 				// is a DOM element
 				var content = null;
 
+/*
 				if(self.opt.cloneContent)
 					content = self.opt.balloon.clone(true);
 				else
 					content = self.opt.balloon;
+*/
 
+				content = self.opt.balloon;
 				content.addClass("balloon-visible");
+
 				self.$balloonContainer.append(content);
 				$self.data("balloon", content);
 				self.$balloonContainer.css({padding: 0});
@@ -185,6 +189,8 @@
 					$self.hideBalloon();
 				})
 			};
+
+			jQuery(".mbBalloonOpener.highlight").removeClass("highlight");
 
 			if (self.opt.highlight) {
 				$self.addClass("highlight");
@@ -245,7 +251,6 @@
 			jQuery("body").append(self.$balloonContainer);
 
 			jQuery(window).off("resize.mbBalloon").on("resize.mbBalloon", function () {
-
 				if(self.isOpened){
 					$self.hideBalloon(null, opt, false);
 					clearTimeout(self.repos);
@@ -277,8 +282,10 @@
 						self.$balloonContainer.css(jQuery.balloon.balloonTransitions["slide_" + self.pos]);
 						self.$balloonContainer.animate({marginLeft: 0, marginTop: 0, opacity: 1}, self.opt.animTime, $.bez(self.opt.ease));
 						jQuery(".mbBalloonOpener").not($self).each(function () {
-							if (this.displayed)
+
+								if (this.displayed)
 								jQuery(this).hideBalloon(null, {}, false);
+
 						});
 
 					}
