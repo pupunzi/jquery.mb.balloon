@@ -46,12 +46,16 @@
 
   min-height: 20px;
   min-width: 80px;
-  max-width: 300px;
+  max-width: 400px;
   padding: 20px;
 
   border-radius: 4px;
   box-shadow: 0 0 4px 2px rgba(0, 0, 0, .2);
 
+}
+
+.mbBalloon.hasClose {
+  padding-right: 60px;
 }
 
 .mbBalloon .arrow {
@@ -128,23 +132,25 @@
 
 .mbBalloon .mbBalloonClose{
   position: absolute;
-  right: 0;
-  top: -2px;
+  right: 10px;
+  top: -3px;
   padding: 10px;
   width: 20px;
   height: 20px;
   cursor: pointer;
-  opacity: 0.5;
-}
-
-.mbBalloon .mbBalloonClose:hover{
   opacity: 1;
 }
 
-.mbBalloon.e .mbBalloonClose{
-  right: auto;
-  left: 5px;
+.mbBalloon .mbBalloonClose:hover{
+  opacity: .5;
 }
+
+/*
+.mbBalloon.e .mbBalloonClose{
+  left: auto;
+  right: 5px;
+}
+*/
 
 .mbBalloonClose:before{
   content: '\e802';
@@ -156,7 +162,7 @@
   text-decoration: inherit;
   font-variant: normal;
   text-transform: none;
-  font-size: 120%;
+  font-size: 220%;
   text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3);
   position: absolute;
   top: 5px;
@@ -169,13 +175,27 @@
   background-color: rgba(255, 255, 255, 1) !important;
 }
 
+.mbBalloonOpener.mbBalloonOpened{
+  z-index: 1001 !important;
+}
+
 .mbBalloonOverlay{
   position: fixed;
   width: 100%;
   height: 100%;
-  background: rgba(15, 15, 15, 0.40);
+  background: rgba(0, 0, 0, 0.56);
   top:0;
   left: 0;
+}
+
+[data-contentForBalloon]{
+  display: none;
+}
+
+
+.mbBalloonBlur{
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
 }
 
 
