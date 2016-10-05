@@ -100,14 +100,14 @@
 				self.opt = {};
 
 				if (typeof opt == "object") {
-
-
 					jQuery.extend(self.opt, jQuery.balloon.defaults, $self.data(), opt);
 				} else if (typeof opt == "string") {
 					self.opt.balloon = opt;
 				} else {
 					jQuery.extend(self.opt, jQuery.balloon.defaults, $self.data());
 				}
+				self.opt.cloneContent = self.opt.cloneContent || false;
+
 				self.isInit = true;
 				$self.addClass("mbBalloonOpener");
 			} else {
@@ -145,7 +145,14 @@
 			if (typeof self.opt.balloon == "object") {
 
 				// is a DOM element
-				var content = self.opt.balloon.clone(true).addClass("balloon-visible");
+				var content = null;
+
+				if(self.opt.cloneContent)
+					content = self.opt.balloon.clone(true);
+				else
+					content = self.opt.balloon;
+
+				content.addClass("balloon-visible");
 				self.$balloonContainer.append(content);
 				$self.data("balloon", content);
 				self.$balloonContainer.css({padding: 0});
@@ -473,7 +480,7 @@
 					break;
 			}
 
-				if (balloonLeft < (jQuery("body").offset().left + jQuery(window).scrollLeft())) {
+			if (balloonLeft < (jQuery("body").offset().left + jQuery(window).scrollLeft())) {
 
 				balloonTop = targetTop + (targetHeight / 2) - self.$balloonContainer.outerHeight() / 2;
 				balloonLeft = (targetLeft + targetWidth) + arrow.outerWidth();
