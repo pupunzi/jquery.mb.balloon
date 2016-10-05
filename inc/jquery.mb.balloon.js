@@ -33,7 +33,19 @@
 	 * Copyright @YEAR Robert Dallas Gray. All rights reserved.
 	 * Provided under the FreeBSD license: https://github.com/rdallasgray/bez/blob/master/LICENSE.txt
 	 */
-	jQuery.extend({bez:function(a,b){if(jQuery.isArray(a)&&(b=a,a="bez_"+b.join("_").replace(/\./g,"p")),"function"!=typeof jQuery.easing[a]){var c=function(a,b){var c=[null,null],d=[null,null],e=[null,null],f=function(f,g){return e[g]=3*a[g],d[g]=3*(b[g]-a[g])-e[g],c[g]=1-e[g]-d[g],f*(e[g]+f*(d[g]+f*c[g]))},g=function(a){return e[0]+a*(2*d[0]+3*c[0]*a)},h=function(a){for(var d,b=a,c=0;++c<14&&(d=f(b,0)-a,!(Math.abs(d)<.001));)b-=d/g(b);return b};return function(a){return f(h(a),1)}};jQuery.easing[a]=function(a,d,e,f,g){return f*c([b[0],b[1]],[b[2],b[3]])(d/g)+e}}return a}});
+	jQuery.extend({bez: function (a, b) {
+		if (jQuery.isArray(a) && (b = a, a = "bez_" + b.join("_").replace(/\./g, "p")), "function" != typeof jQuery.easing[a]) {
+			var c = function (a, b) {
+				var c = [null, null], d = [null, null], e = [null, null], f = function (f, g) {return e[g] = 3 * a[g], d[g] = 3 * (b[g] - a[g]) - e[g], c[g] = 1 - e[g] - d[g], f * (e[g] + f * (d[g] + f * c[g]))}, g = function (a) {return e[0] + a * (2 * d[0] + 3 * c[0] * a)}, h = function (a) {
+					for (var d, b = a, c = 0; ++c < 14 && (d = f(b, 0) - a, !(Math.abs(d) < .001));)b -= d / g(b);
+					return b
+				};
+				return function (a) {return f(h(a), 1)}
+			};
+			jQuery.easing[a] = function (a, d, e, f, g) {return f * c([b[0], b[1]], [b[2], b[3]])(d / g) + e}
+		}
+		return a
+	}});
 	/*
 	 * ------------------------------------------------------------------------------------------------------------------------------------------------
 	 * */
@@ -43,25 +55,27 @@
 		version : "1.1",
 		author  : "Matteo Bicocchi",
 		defaults: {
-			addclose      : false,
-			addoverlay    : false,
-			overlaycolor  : "#000000",
-			overlayopacity: .5,
-			target        : "self",
-			css           : null,
-			highlight     : false,
-			onlyonce      : false,
-			ease          : [.23, .68, .4, 1.2], //[0, .96, 0, 1.02],
-			animTime      : 200,
-			bgcolor       : "#333333",
-			bordercolor   : "#ffffff",
-			textcolor     : "#ffffff",
-			oncursor      : false,
-			event         : "click",
-			position      : "auto", // or: up, down, left, right
-			timer         : 0, // close the balloon after x millis (0 = never)
-			delay         : 500,
-			balloon       : "This is an mb.balloon"
+			addclose         : false,
+			addoverlay       : false,
+			overlaycolor     : "#000000",
+			overlayopacity   : .5,
+			target           : "self",
+			css              : null,
+			highlight        : false,
+			onlyonce         : false,
+			ease             : [.23, .68, .4, 1.2], //[0, .96, 0, 1.02],
+			animTime         : 200,
+			bgcolor          : "#333333",
+			bordercolor      : "#ffffff",
+			textcolor        : "#ffffff",
+			oncursor         : false,
+			event            : "click",
+			position         : "auto", // or: up, down, left, right
+			timer            : 0, // close the balloon after x millis (0 = never)
+			delay            : 500,
+			canclosecondition: function (balloon) {return true;},
+			storeData        : true,
+			balloon          : "This is an mb.balloon"
 		},
 
 		balloonTransitions: {
@@ -74,18 +88,18 @@
 		init: function (opt) {
 
 			jQuery("body").on("click focus", "[data-balloon]", function (e) {
-				if( !$(this).data("event") || $(this).data("event") == "click")
+				if (!$(this).data("event") || $(this).data("event") == "click")
 					$(this).showBalloon(e, opt, true);
 			});
 
 			jQuery("body").on("mouseenter", "[data-balloon]", function (e) {
-				if( $(this).data("event") == "hover"){
+				if ($(this).data("event") == "hover") {
 					$(this).showBalloon(e, opt, true);
 				}
 			});
 
 			jQuery("body").on("mouseleave", "[data-balloon]", function (e) {
-				if( $(this).data("event") == "hover" && !$(this).data("addclose")){
+				if ($(this).data("event") == "hover" && !$(this).data("addclose")) {
 					$(this).hideBalloon(true);
 				}
 			});
@@ -103,14 +117,14 @@
 			var $self = this;
 			var self = $self[0];
 
-			if(self.isOpened)
+			if (self.isOpened)
 				return;
 
-			if(event && event.type == "mouseover" && !self.isDelaied){
+			if (event && event.type == "mouseover" && !self.isDelaied) {
 				self.isDelaied = true;
-				self.delay = setTimeout(function(){
-					$self.showBalloon(event,opt,anim);
-				},300);
+				self.delay = setTimeout(function () {
+					$self.showBalloon(event, opt, anim);
+				}, 300);
 				return;
 			}
 
@@ -175,7 +189,9 @@
 				// is a DOM element
 				content = self.opt.balloon.html();
 				self.$balloonContainer.append(content);
-				$self.data("balloon", content);
+
+				if(self.opt.storeData)
+					$self.data("balloon", content);
 
 			} else if (typeof self.opt.balloon == "string" && self.opt.balloon.indexOf("{ajax}") > -1) {
 
@@ -189,13 +205,14 @@
 					$self.trigger("ajaxcontentready");
 				});
 
-			} else if (typeof self.opt.balloon == "string" && self.opt.balloon.indexOf("{element}") > -1){
+			} else if (typeof self.opt.balloon == "string" && self.opt.balloon.indexOf("{element}") > -1) {
 
 				// is the ID of a DOM element
 				var el = self.opt.balloon.replace("{element}", "");
 				content = $(el).html();
 				self.$balloonContainer.append(content);
-				$self.data("balloon", content);
+				if(self.opt.storeData)
+					$self.data("balloon", content);
 
 			} else {
 
@@ -222,7 +239,7 @@
 				if (self.opt.event == "click" && !$self.data("delay"))
 					self.opt.delay = 0;
 
-				self.delay = setTimeout(function(){
+				self.delay = setTimeout(function () {
 
 
 					if (self.opt.highlight) {
@@ -265,7 +282,7 @@
 
 						setTimeout(function () {
 							jQuery(document).on("click.mbBalloon", function (e) {
-								if ( (!jQuery(e.target).is(".mbBalloon") && !jQuery(e.target).parents().is(".mbBalloon")) && !jQuery(e.target).is($self)) {
+								if ((!jQuery(e.target).is(".mbBalloon") && !jQuery(e.target).parents().is(".mbBalloon")) && !jQuery(e.target).is($self)) {
 									$self.hideBalloon();
 									jQuery(document).off("click.mbBalloon");
 								}
@@ -284,7 +301,7 @@
 
 					jQuery(window).off("resize.mbBalloon").on("resize.mbBalloon", function () {
 
-						if(self.isOpened){
+						if (self.isOpened) {
 							clearTimeout(self.repos);
 							$self.hideBalloon(false, null);
 							self.repos = setTimeout(function () {
@@ -298,7 +315,7 @@
 
 					if (anim) {
 
-						if (self.opt.addoverlay){
+						if (self.opt.addoverlay) {
 							balloonOverlay.fadeTo(self.opt.animTime, self.opt.overlayopacity, function () {
 								jQuery(".mbBalloonOpener").not($self).each(function () {
 									if (this.displayed)
@@ -317,11 +334,10 @@
 								if (this.displayed)
 									jQuery(this).hideBalloon(null, {}, false);
 							});
-
 						}
 
 					} else {
-						balloonOverlay.css({opacity:self.opt.overlayopacity});
+						balloonOverlay.css({opacity: self.opt.overlayopacity});
 						self.$balloonContainer.css({opacity: 1});
 						jQuery("body").css({overflow: "hidden"});
 					}
@@ -332,7 +348,7 @@
 						}, self.opt.timer);
 				}, self.opt.delay);
 
-				$self.one("mouseleave",function(){clearTimeout(self.delay)});
+				$self.one("mouseleave", function () {clearTimeout(self.delay)});
 
 			}
 
@@ -340,17 +356,17 @@
 				$self.on("ajaxcontentready", function () {
 
 					var images = $("img", self.$balloonContainer);
-					if(images.length){
+					if (images.length) {
 						var x = 0;
-						images.each(function(){
-							$(this).on("load", function(){
+						images.each(function () {
+							$(this).on("load", function () {
 								++x;
 								if (x == images.length)
 									displayBalloon()
 							});
 						})
 
-					}else{
+					} else {
 						displayBalloon()
 					}
 				});
@@ -372,9 +388,6 @@
 			var $self = this.is(".mbBalloon") ? this[0].$opener : this;
 			var self = $self[0];
 
-			if (!self)
-				return;
-
 			self.isDelaied = false;
 			self.isOpened = false;
 			clearTimeout(self.closeTimeout);
@@ -384,6 +397,16 @@
 
 			if (!$balloon)
 				return;
+
+			if (!this.length || (self.$balloonContainer.length && !self.$balloonContainer.is(":visible")))
+				return;
+
+			if (typeof self.opt.canclosecondition == "string")
+				self.opt.canclosecondition = eval(self.opt.canclosecondition);
+
+			if (typeof self.opt.canclosecondition == "function" && !self.opt.canclosecondition(self.$balloonContainer))
+				return false;
+
 
 			$balloon.trigger("closeBalloon");
 
@@ -423,6 +446,7 @@
 
 					$balloon.remove();
 					$self.removeClass("highlight");
+					self.displayed = false;
 
 					if (overlay && overlay.opener.is($self))
 						jQuery(overlay).remove();
@@ -476,7 +500,7 @@
 			//left or right
 				self.balloonPos = center.left > centerLeft ? "left" : "right";
 
-			if(self.opt.position != "auto")
+			if (self.opt.position != "auto")
 				self.balloonPos = self.opt.position;
 
 			var balloonTop, balloonLeft;
@@ -530,7 +554,7 @@
 					break;
 			}
 
-				if (balloonLeft < (jQuery("body").offset().left + jQuery(window).scrollLeft())) {
+			if (balloonLeft < (jQuery("body").offset().left + jQuery(window).scrollLeft())) {
 
 				balloonTop = targetTop + (targetHeight / 2) - self.$balloonContainer.outerHeight() / 2;
 				balloonLeft = (targetLeft + targetWidth) + arrow.outerWidth();
@@ -557,7 +581,7 @@
 			}
 
 
-			if ( balloonTop <  jQuery(window).scrollTop()) {
+			if (balloonTop < jQuery(window).scrollTop()) {
 
 				if (self.balloonPos == "left" || self.balloonPos == "right") {
 					var diff = (self.$containment.offset().top + jQuery(window).scrollTop()) - balloonTop + 10;

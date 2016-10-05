@@ -99,8 +99,6 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
 
-        .opener:not(input) {}
-
         input.opener {
             position: relative;
             display: inline-block;
@@ -197,6 +195,15 @@
             return html;
         }
 
+        function canClose(balloon) {
+
+            var input = balloon.find("input");
+            if (input.val().length > 0)
+                return confirm("Sure you want to close this balloon?");
+            else
+                return true;
+        }
+
         $.fn.showCode = function(el){
             return this.each(
                     function(){
@@ -238,8 +245,8 @@
         <h3>click me</h3>
         (without overlay)
     </div>
-    <div id="balloon4" class="opener box" data-bgcolor="#f0f0f0" data-addclose="true" data-event="click" data-bordercolor="#999" data-textcolor="#333" data-balloon= "{ajax} balloon-ajax-content.html"  style="">
-        <h3>Click me</h3>
+    <div id="balloon4" class="opener box" data-bgcolor="#f0f0f0" data-addclose="true" data-event="click" data-bordercolor="#999" data-textcolor="#333" data-balloon= "{ajax} balloon-ajax-content.html" data-canCloseCondition="canClose"  style="">
+        <h3>balloon4: Click me</h3>
         (the content is from an ajax call)
     </div>
     <div id="balloon5" class="opener box" data-position="up" data-delay="1000" data-highlight="true" data-addoverlay="true" data-balloon= "{element} #domContent" data-event="hover" data-timer="3000" style="">
@@ -300,7 +307,7 @@
 </div>
 
 <div id="domContent" data-contentForBalloon="true">
-    This content is from an in-line element.
+    This content is from an DOM in-line element.
 </div>
 
 </body>
