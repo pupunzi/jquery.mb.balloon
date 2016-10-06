@@ -120,11 +120,12 @@
 			if (self.isOpened)
 				return;
 
-			if (event && event.type == "mouseover" && !self.isDelaied) {
+			if (event && event.type == "mouseenter" && !self.isDelaied) {
 				self.isDelaied = true;
 				self.delay = setTimeout(function () {
 					$self.showBalloon(event, opt, anim);
-				}, 300);
+				}, 100);
+
 				return;
 			}
 
@@ -150,7 +151,7 @@
 			}
 
 			//$("body").addClass("mbBalloonBlur");
-			$self.addClass("mbBalloonOpened");
+//			$self.addClass("mbBalloonOpened");
 
 			if (typeof event == "undefined")
 				self.opt.oncursor = false;
@@ -240,7 +241,6 @@
 					self.opt.delay = 0;
 
 				self.delay = setTimeout(function () {
-
 
 					if (self.opt.highlight) {
 						$self.addClass("highlight");
@@ -335,11 +335,13 @@
 									jQuery(this).hideBalloon(null, {}, false);
 							});
 						}
+						$self.addClass("mbBalloonOpened");
 
 					} else {
 						balloonOverlay.css({opacity: self.opt.overlayopacity});
 						self.$balloonContainer.css({opacity: 1});
 						jQuery("body").css({overflow: "hidden"});
+						$self.addClass("mbBalloonOpened");
 					}
 
 					if (self.opt.timer && !self.opt.addclose)
@@ -395,8 +397,9 @@
 
 			var $balloon = self.$balloonContainer;
 
-			if (!$balloon)
+			if (!$balloon){
 				return;
+			}
 
 			if (!this.length || (self.$balloonContainer.length && !self.$balloonContainer.is(":visible")))
 				return;
@@ -406,7 +409,6 @@
 
 			if (typeof self.opt.canclosecondition == "function" && !self.opt.canclosecondition(self.$balloonContainer))
 				return false;
-
 
 			$balloon.trigger("closeBalloon");
 
