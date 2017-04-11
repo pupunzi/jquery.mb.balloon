@@ -299,15 +299,18 @@
 
 					jQuery("body").before(self.$balloonContainer);
 
+					/**
+					 * On window resize
+					 */
 					jQuery(window).off("resize.mbBalloon").on("resize.mbBalloon", function () {
 
+						self.$balloonContainer.hide();
 						if (self.isOpened) {
 							clearTimeout(self.repos);
-							$self.hideBalloon(false, null);
 							self.repos = setTimeout(function () {
-								self.isOpened = false;
-								$self.showBalloon(null, self.opt, false);
-							}, 500)
+								self.$balloonContainer.show();
+								$self.setBalloonPosition(event, target, true);
+							}, 300)
 						}
 					});
 
@@ -507,6 +510,9 @@
 
 			var balloonTop, balloonLeft;
 			var arrowTop, arrowLeft;
+
+			self.$balloonContainer.removeClass("n s e w");
+			arrow.removeClass("n s e w");
 
 			switch (self.balloonPos) {
 
