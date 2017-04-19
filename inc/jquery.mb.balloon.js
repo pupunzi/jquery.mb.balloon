@@ -310,7 +310,7 @@
 							self.repos = setTimeout(function () {
 								self.$balloonContainer.show();
 								$self.setBalloonPosition(event, target, true);
-							}, 300)
+							}, 50)
 						}
 					});
 
