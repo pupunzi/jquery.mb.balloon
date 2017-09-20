@@ -33,6 +33,7 @@
 	 * Copyright @YEAR Robert Dallas Gray. All rights reserved.
 	 * Provided under the FreeBSD license: https://github.com/rdallasgray/bez/blob/master/LICENSE.txt
 	 */
+
 	jQuery.extend({bez: function (a, b) {
 		if (jQuery.isArray(a) && (b = a, a = "bez_" + b.join("_").replace(/\./g, "p")), "function" != typeof jQuery.easing[a]) {
 			var c = function (a, b) {
@@ -46,6 +47,7 @@
 		}
 		return a
 	}});
+	
 	/*
 	 * ------------------------------------------------------------------------------------------------------------------------------------------------
 	 * */
