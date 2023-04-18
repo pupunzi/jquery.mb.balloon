@@ -90,18 +90,18 @@
 		init: function (opt) {
 
 			jQuery("body").on("click focus", "[data-balloon]", function (e) {
-				if (!$(this).data("event") || $(this).data("event") == "click")
+				if (!$(this).data("event") || $(this).data("event") === "click")
 					$(this).showBalloon(e, opt, true);
 			});
 
 			jQuery("body").on("mouseenter", "[data-balloon]", function (e) {
-				if ($(this).data("event") == "hover") {
+				if ($(this).data("event") === "hover") {
 					$(this).showBalloon(e, opt, true);
 				}
 			});
 
 			jQuery("body").on("mouseleave", "[data-balloon]", function (e) {
-				if ($(this).data("event") == "hover" && !$(this).data("addclose")) {
+				if ($(this).data("event") === "hover" && !$(this).data("addclose")) {
 					$(this).hideBalloon(true);
 				}
 			});
@@ -122,7 +122,7 @@
 			if (self.isOpened)
 				return;
 
-			if (event && event.type == "mouseenter" && !self.isDelaied) {
+			if (event && event.type === "mouseenter" && !self.isDelaied) {
 				self.isDelaied = true;
 				self.delay = setTimeout(function () {
 					$self.showBalloon(event, opt, anim);
@@ -235,11 +235,11 @@
 				})
 			};
 
-			var target = self.opt.target != "self" ? jQuery(self.opt.target) : $self;
+			var target = self.opt.target !== "self" ? jQuery(self.opt.target) : $self;
 
 			function displayBalloon() {
 
-				if (self.opt.event == "click" && !$self.data("delay"))
+				if (self.opt.event === "click" && !$self.data("delay"))
 					self.opt.delay = 0;
 
 				self.delay = setTimeout(function () {
@@ -269,10 +269,10 @@
 
 						if (self.opt.highlight || self.opt.addoverlay) {
 							self.position = $self.css("position");
-							if ($self.css("position") == "static")
+							if ($self.css("position") === "static")
 								$self.css("position", "relative");
 
-							if ($self.css("background-color") == "transparent" || $self.css("background-color") == "rgba(0, 0, 0, 0)")
+							if ($self.css("background-color") === "transparent" || $self.css("background-color") === "rgba(0, 0, 0, 0)")
 								$self.css({
 									"background-color": "inherit"
 								});
@@ -368,7 +368,7 @@
 						images.each(function () {
 							$(this).on("load", function () {
 								++x;
-								if (x == images.length)
+								if (x === images.length)
 									displayBalloon()
 							});
 						})
@@ -478,7 +478,7 @@
 				self.opt.oncursor = false;
 
 			self.$containment = opener.parents().filter(function () {
-				return jQuery(this).is("body") || (!jQuery(this).is("td, tr, table, tbody") && jQuery(this).css("overflow") != "visible");
+				return jQuery(this).is("body") || (!jQuery(this).is("td, tr, table, tbody") && jQuery(this).css("overflow") !== "visible");
 			}).eq(0);
 
 			self.containment = self.$containment.get(0);
@@ -507,7 +507,7 @@
 			//left or right
 				self.balloonPos = center.left > centerLeft ? "left" : "right";
 
-			if (self.opt.position != "auto")
+			if (self.opt.position !== "auto")
 				self.balloonPos = self.opt.position;
 
 			var balloonTop, balloonLeft;
@@ -593,7 +593,7 @@
 
 			if (balloonTop < jQuery(window).scrollTop()) {
 
-				if (self.balloonPos == "left" || self.balloonPos == "right") {
+				if (self.balloonPos === "left" || self.balloonPos === "right") {
 					var diff = (self.$containment.offset().top + jQuery(window).scrollTop()) - balloonTop + 10;
 
 					balloonTop = balloonTop + diff;
@@ -602,7 +602,7 @@
 					arrowTop = arrowTop < 0 ? 20 : arrowTop;
 				}
 
-				if (self.balloonPos == "up") {
+				if (self.balloonPos === "up") {
 					balloonTop = targetTop + targetHeight + arrow.outerHeight() / 2;
 					balloonLeft = (targetLeft + targetWidth / 2) - (self.$balloonContainer.outerWidth() / 2);
 					arrowTop = -arrow.outerHeight();
