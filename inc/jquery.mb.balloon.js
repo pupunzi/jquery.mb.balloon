@@ -115,9 +115,9 @@
 
 			if (typeof anim == "undefined")
 				anim = true;
-
-			var $self = this;
-			var self = $self[0];
+			
+			const $self = this;
+			const self = $self[0];
 
 			if (self.isOpened)
 				return;
@@ -185,7 +185,7 @@
 			self.balloonContainer.opener = self;
 			self.balloonContainer.$opener = $self;
 
-			var content;
+			let content;
 			// place the content
 			if (typeof self.opt.balloon == "object") {
 
@@ -201,7 +201,7 @@
 				self.isAjax = true;
 
 				// is an AJAX URL
-				var url = self.opt.balloon.replace("{ajax}", "");
+				const url = self.opt.balloon.replace("{ajax}", "");
 				jQuery.get(url, function (data) {
 					self.$balloonContainer.append(data);
 					$self.data("balloon", data);
@@ -211,7 +211,7 @@
 			} else if (typeof self.opt.balloon == "string" && self.opt.balloon.indexOf("{element}") > -1) {
 
 				// is the ID of a DOM element
-				var el = self.opt.balloon.replace("{element}", "");
+				const el = self.opt.balloon.replace("{element}", "");
 				content = $(el).html();
 				self.$balloonContainer.append(content);
 				if(self.opt.storeData)
@@ -226,7 +226,7 @@
 
 			if (self.opt.addclose) {
 				self.opt.addoverlay = true;
-				var close = jQuery("<div/>").addClass("mbBalloonClose");
+				const close = jQuery("<div/>").addClass("mbBalloonClose");
 				self.$balloonContainer.append(close);
 				self.$balloonContainer.addClass("hasClose");
 
@@ -234,8 +234,8 @@
 					$self.hideBalloon();
 				})
 			};
-
-			var target = self.opt.target !== "self" ? jQuery(self.opt.target) : $self;
+			
+			const target = self.opt.target !== "self" ? jQuery(self.opt.target) : $self;
 
 			function displayBalloon() {
 
@@ -250,13 +250,13 @@
 					}
 
 					if (self.opt.addoverlay) {
-						var opacity = 0;
+						let opacity = 0;
 						if (jQuery(".mbBalloonOverlay").length) {
 							jQuery(".mbBalloonOverlay").remove();
 							opacity = 1;
 						}
-
-						var balloonOverlay = jQuery("<div/>").addClass("mbBalloonOverlay").css({zIndex: 1000, opacity: opacity, background: self.opt.overlaycolor});
+						
+						const balloonOverlay = jQuery("<div/>").addClass("mbBalloonOverlay").css({zIndex: 1000, opacity: opacity, background: self.opt.overlaycolor});
 						balloonOverlay.get(0).opener = $self;
 						jQuery("body").before(balloonOverlay);
 
@@ -292,9 +292,9 @@
 						}, 100)
 
 					}
-
-					var arrow = $("<div>").addClass("arrow");
-					var arrowBorder = arrow.clone().addClass("border");
+					
+					const arrow = $("<div>").addClass("arrow");
+					const arrowBorder = arrow.clone().addClass("border");
 					arrowBorder.css({borderColor: self.opt.bgcolor});
 
 					self.$balloonContainer.prepend(arrowBorder).prepend(arrow);
@@ -361,10 +361,10 @@
 
 			if (self.isAjax) {
 				$self.on("ajaxcontentready", function () {
-
-					var images = $("img", self.$balloonContainer);
+					
+					const images = $("img", self.$balloonContainer);
 					if (images.length) {
-						var x = 0;
+						let x = 0;
 						images.each(function () {
 							$(this).on("load", function () {
 								++x;
@@ -391,16 +391,16 @@
 		hide: function (anim, callBack) {
 
 			anim = typeof anim == "undefined" ? true : anim;
-
-			var $self = this.is(".mbBalloon") ? this[0].$opener : this;
-			var self = $self[0];
+			
+			const $self = this.is(".mbBalloon") ? this[0].$opener : this;
+			const self = $self[0];
 
 			self.isDelaied = false;
 			self.isOpened = false;
 			clearTimeout(self.closeTimeout);
 			clearTimeout(self.delay);
-
-			var $balloon = self.$balloonContainer;
+			
+			const $balloon = self.$balloonContainer;
 
 			if (!$balloon){
 				return;
@@ -418,8 +418,8 @@
 			$balloon.trigger("closeBalloon");
 
 			if ($balloon && $balloon.length) {
-
-				var overlay = jQuery(".mbBalloonOverlay").get(0);
+				
+				const overlay = jQuery(".mbBalloonOverlay").get(0);
 
 				if (anim) {
 
@@ -469,10 +469,10 @@
 		},
 
 		setPos: function (event, opener) {
-
-			var $self = this;
-			var self = $self[0];
-			var arrow = self.$balloonContainer.find(".arrow");
+			
+			const $self = this;
+			const self = $self[0];
+			const arrow = self.$balloonContainer.find(".arrow");
 
 			if (typeof event == "undefined")
 				self.opt.oncursor = false;
@@ -490,15 +490,15 @@
 			}
 
 			/* get the center of the containment */
-			var centerLeft = self.$containment.outerWidth() / 2;
-			var centerTop = self.$containment.outerHeight() / 2;
+			const centerLeft = self.$containment.outerWidth() / 2;
+			const centerTop = self.$containment.outerHeight() / 2;
 
-			var targetTop = self.opt.oncursor ? event.pageY || opener.offset().top : opener.offset().top;
-			var targetLeft = self.opt.oncursor ? event.pageX || opener.offset().left : opener.offset().left;
-			var targetWidth = self.opt.oncursor ? 1 : opener.outerWidth();
-			var targetHeight = self.opt.oncursor ? 1 : opener.outerHeight();
+			const targetTop = self.opt.oncursor ? event.pageY || opener.offset().top : opener.offset().top;
+			const targetLeft = self.opt.oncursor ? event.pageX || opener.offset().left : opener.offset().left;
+			const targetWidth = self.opt.oncursor ? 1 : opener.outerWidth();
+			const targetHeight = self.opt.oncursor ? 1 : opener.outerHeight();
 
-			var center = {top: targetTop + (targetHeight), left: targetLeft + (targetWidth / 2)};
+			const center = {top: targetTop + (targetHeight), left: targetLeft + (targetWidth / 2)};
 
 			if (Math.abs(center.top - centerTop) > Math.abs(center.left - centerLeft))
 			//up or down?
@@ -510,8 +510,8 @@
 			if (self.opt.position !== "auto")
 				self.balloonPos = self.opt.position;
 
-			var balloonTop, balloonLeft;
-			var arrowTop, arrowLeft;
+			let balloonTop, balloonLeft;
+			let arrowTop, arrowLeft;
 
 			self.$balloonContainer.removeClass("n s e w");
 			arrow.removeClass("n s e w");
@@ -590,11 +590,10 @@
 				self.balloonPos = "left"
 			}
 
-
 			if (balloonTop < jQuery(window).scrollTop()) {
 
 				if (self.balloonPos === "left" || self.balloonPos === "right") {
-					var diff = (self.$containment.offset().top + jQuery(window).scrollTop()) - balloonTop + 10;
+					const diff = (self.$containment.offset().top + jQuery(window).scrollTop()) - balloonTop + 10;
 
 					balloonTop = balloonTop + diff;
 					arrowTop -= diff;
@@ -645,20 +644,20 @@
 		},
 
 		getBalloon: function () {
-			var $self = this;
-			var self = $self[0];
+			const $self = this;
+			const self = $self[0];
 			return self.$balloonContainer;
 		},
 
 		getOpener: function () {
-			var $self = this;
-			var self = $self[0];
+			const $self = this;
+			const self = $self[0];
 			return self.$opener;
 		}
 
 	};
 
-	/* Public methods */
+	/** Public methods */
 	jQuery.fn.showBalloon = jQuery.balloon.show;
 	jQuery.fn.hideBalloon = jQuery.balloon.hide;
 	jQuery.fn.setBalloonPosition = jQuery.balloon.setPos;
